@@ -1,0 +1,45 @@
+# 🔐 Environment variables (VERY IMPORTANT)
+.env
+
+# 🐍 Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 🧪 Virtual environment
+.venv/
+venv/
+env/
+
+# 📦 Dependency / build artifacts
+build/
+dist/
+*.egg-info/
+
+# 🧠 Vector DB / persistent memory
+chroma_db/
+
+# 💾 Cached embeddings / temp files
+*.pkl
+*.db
+
+# 📝 Logs
+*.log
+
+# 📂 OS files
+.DS_Store
+Thumbs.db
+
+# 🧑‍💻 IDE / editor files
+.vscode/
+.idea/
+
+# 📁 Uploaded user data (optional - depends on use case)
+uploads/
+
+# 🔥 Jupyter notebooks (if any)
+.ipynb_checkpoints/
+
+# HuggingFace cache
+.cache/
