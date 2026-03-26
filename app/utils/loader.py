@@ -4,7 +4,7 @@ from pypdf import PdfReader
 
 logging.getLogger("pypdf").setLevel(logging.ERROR)
 
-def load_documents(folder_path):
+def load_pdf(folder_path):
     documents = []
     
     for file in os.listdir(folder_path):

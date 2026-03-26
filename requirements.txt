@@ -8,3 +8,8 @@ python-dotenv
 langchain
 langchain-groq
 chromadb
+fastapi
+uvicorn
+python-multipart
+stremlit
+requests

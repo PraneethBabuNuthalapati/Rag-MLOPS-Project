@@ -6,6 +6,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.db
 
 # 🧪 Virtual environment
 .venv/
@@ -43,3 +44,6 @@ uploads/
 
 # HuggingFace cache
 .cache/
+
+#Streamlit
+.streamlit/

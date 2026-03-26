@@ -10,54 +10,59 @@ class VectorStore:
             name=collection_name
         )
 
-    def generate_id(self, text):
+    def generate_id(self, text, session_id):
         """Generate unique hash ID for each chunk"""
-        return hashlib.md5(text.encode()).hexdigest()
+        unique_string = text + session_id
+        return hashlib.md5(unique_string.encode()).hexdigest()
 
-    def add(self, embeddings, documents):
-        """
-        Add only NEW documents (no duplicates)
-        Works for both static data and user uploads
-        """
-
+    def add(self, embeddings, documents, metadatas):
         print("📥 Checking for new documents to add...")
 
-        # Get existing IDs
         existing_data = self.collection.get()
         existing_ids = set(existing_data["ids"]) if existing_data["ids"] else set()
 
         new_embeddings = []
         new_documents = []
         new_ids = []
+        new_metadatas = []
 
-        for doc, emb in zip(documents, embeddings):
-            doc_id = self.generate_id(doc)
+        for doc, emb, meta in zip(documents, embeddings, metadatas):
+            doc_id = self.generate_id(doc, meta["session_id"])  # 🔥 FIX HERE
 
-            # Only add if not already present
             if doc_id not in existing_ids:
                 new_documents.append(doc)
                 new_embeddings.append(emb)
                 new_ids.append(doc_id)
+                new_metadatas.append(meta)
 
         if len(new_ids) == 0:
             print("⚡ No new documents to add.")
             return
 
-        print(f"➕ Adding {len(new_ids)} new chunks...")
+        print(f"+ Adding {len(new_ids)} new chunks...")
 
         self.collection.add(
             embeddings=new_embeddings,
             documents=new_documents,
-            ids=new_ids
+            ids=new_ids,
+            metadatas=new_metadatas
         )
 
         print("✅ New embeddings stored successfully.")
+        
+    def search(self, query_embedding, k=3, session_id=None):
+        """
+        Search top-k similar documents
+        Returns both documents and metadata
+        """
 
-    def search(self, query_embedding, k=3):
-        """Search top-k similar documents"""
         results = self.collection.query(
             query_embeddings=[query_embedding],
-            n_results=k
+            n_results=k,
+            where={"session_id": session_id}
         )
 
-        return results["documents"][0]
+        return {
+            "documents": results["documents"][0] if results["documents"] else [],
+            "metadatas": results["metadatas"][0] if results["metadatas"] else []
+        }

@@ -1,4 +1,4 @@
-def chunk_text(text, chunk_size=500, overlap=100):
+def chunk_text(text, chunk_size=400, overlap=50):
     import re
 
     # Split by sentences instead of words
