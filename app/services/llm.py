@@ -53,7 +53,7 @@ def rewrite_query(query, history):
 
     last_item = history[-1]
 
-    # ✅ Handle different formats safely
+    # Handle different formats safely
     last_q = (
         last_item.get("q")
         or last_item.get("question")
